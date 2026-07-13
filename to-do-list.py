@@ -8,20 +8,21 @@ from tkinter import ttk
 class ToDoList:
     def __init__(self): # Konstruktor
         # Fenstertitel, Fenstergröße definieren
-        # Startvariablen initialisieren: self.text_line = StringVar()
-        # self.window = Tk()
-        # self.tasks = [] Liste für die To-Do-Elemente
-        # self.task_input = StringVar()  # Variable für die Eingabe des To-Do-Elements
-        # self.file_path = "todos.json"  # Pfad zur JSON-Datei für die To-Do-Liste
-        # usw
+        self.text_line = StringVar()
+        self.window = Tk()
+        self.window.title("To-Do List")
+        self.tasks = [] #Liste für die To-Do-Elemente
+        self.task_input = StringVar()  # Variable für die Eingabe des To-Do-Elements
+        self.file_path = "todos.json"  # Pfad zur JSON-Datei für die To-Do-Liste
+        
 
-        #self. create_ui()
+        self. create_ui()
+        self.load_todos()  # To-Dos aus der JSON-Datei laden, falls vorhanden
 
-    #def create_ui(self)
-    # hier wird die Benutzeroberfläche erstellt, z.B. Labels, Buttons, Eingabefelder usw.
-    # self.window.geometry("400x400")
-    # self.display_label = Label(self.window, textvariable=self.text_line)
-    # self.listbox = ttk.Treeview(self.window, columns=("To Dos", "Status"), show="headings")
+    def create_ui(self):
+        self.window.geometry("400x400")
+        self.display_label = Label(self.window, textvariable=self.text_line)
+        self.listbox = ttk.Treeview(self.window, columns=("To Dos", "Status"), show="headings")
     # self.window.title("To-Do List")
     # self.input_entry = ttk.Entry(self.window, textvariable=self.text_line)
     # self.add_button = Button(self.window, text="Add", command=self.add_todo)
@@ -45,11 +46,9 @@ class ToDoList:
     # def clear_input(self):
     # hier wird das Eingabefeld geleert, z.B. self.text_line.set("")
 
-    # def mark_done(self):
-    # hier wird ein To-Do als erledigt markiert, z.B. self.listbox.item(self.listbox.selection(), values=(..., "Done"))
+    #def toggle_status(self):
+    # hier wird der Status eines To-Dos geändert, z.B. von "Pending" zu "Completed" und umgekehrt
 
-    # def mark_pending(self):
-    # hier wird ein To-Do als unerledigt markiert, z.B. self.listbox.item(self.listbox.selection(), values=(..., "Pending"))
 
     # def edit_todo(self):
     # hier wird ein To-Do bearbeitet, z.B. self.listbox.item(self.listbox.selection(), values=(self.text_line.get(), ...))
