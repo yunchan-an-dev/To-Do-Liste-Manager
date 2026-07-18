@@ -26,6 +26,8 @@ class ToDoList:
         self.listbox = ttk.Treeview(self.window, columns=("To Dos", "Status"), show="headings")
         self.listbox.heading("To Dos", text="To Dos")
         self.listbox.heading("Status", text="Status")
+        self.listbox.pack(pady=10, fill="both", expand=True)
+
         self.window.title("To-Do List")
         self.input_entry = ttk.Entry(self.window, textvariable=self.text_line)
         self.input_entry.pack(pady=10)
@@ -42,6 +44,8 @@ class ToDoList:
         if os.path.exists(self.file_path):
             with open(self.file_path, "r") as f:
                 self.tasks = json.load(f)
+
+        self.update_display()
 
     def add_todo(self):# hier wird ein neues To-Do hinzugefügt
         todo_text = self.text_line.get()
@@ -73,6 +77,7 @@ class ToDoList:
         old_todo = current_values[0]
         old_status = current_values[1]
         self.text_line.set(old_todo)
+        new_todo = self.text_line.get()
         self.listbox.item(selected_item, values=(new_todo, old_status))
 
         for task in self.tasks: 
@@ -85,9 +90,23 @@ class ToDoList:
         self.save_todos()  # To-Dos in der JSON-Datei speichern
 
     def toggle_status(self): # hier wird der Status eines To-Dos geändert, z.B. von "Pending" zu "Completed" und umgekehrt
-        todo_status = self.listbox.item(self.listbox.selection(), "values")[1]
+        if not self.listbox.selection():
+            return
+        
+        selected_item = self.listbox.selection()[0]
+        current_values = self.listbox.item(selected_item, "values")
+        todo_text = current_values[0]
+        todo_status = current_values[1]
+
         new_status = "Completed" if todo_status == "Pending" else "Pending"
         self.listbox.item(self.listbox.selection(), values=(self.listbox.item(self.listbox.selection(), "values")[0], new_status))
+
+        for task in self.tasks:
+            if task["todo"] == todo_text:
+                task["status"] = new_status
+                break
+
+        self.save_todos()
 
     def update_display(self): # hier wird die Anzeige der To-Dos aktualisiert, z.B. self.listbox.insert("", "end", values=(todo, status))
         self.listbox.delete(*self.listbox.get_children())
@@ -105,5 +124,5 @@ class ToDoList:
 
 #-------main function-------
 if __name__ == "__main__":
-todolist = ToDoList()
-todolist.window.mainloop()
+   todolist = ToDoList()
+   todolist.window.mainloop()
