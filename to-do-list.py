@@ -8,8 +8,8 @@ from tkinter import ttk
 class ToDoList:
     def __init__(self): # Konstruktor
         # Fenstertitel, Fenstergröße definieren
-        self.text_line = StringVar()
         self.window = Tk()
+        self.text_line = StringVar()
         self.window.title("To-Do List")
         self.tasks = [] #Liste für die To-Do-Elemente
         self.file_path = "todos.json"  # Pfad zur JSON-Datei für die To-Do-Liste
